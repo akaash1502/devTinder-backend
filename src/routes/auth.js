@@ -4,6 +4,8 @@ const validator = require("validator");
 const { validateSignUpData } = require("../utils/validations");
 const authRouter = express.Router();
 const User = require("../models/user");
+const USER_DATA = ["firstName","lastName","photoURL","about","gender","skills"];
+
 
 authRouter.use(express.json());
 
@@ -18,7 +20,6 @@ authRouter.post("/signup", async (req, res) => {
         const { 
             firstName,
             lastName,
-            gender,
             emailID,
             password } = data;
              
@@ -26,12 +27,16 @@ authRouter.post("/signup", async (req, res) => {
         const user = new User({ 
             firstName,
             lastName,
-            gender,
             emailID,
             password:hashedPassword
         });
-        await user.save();
-        return res.send("User Created Successfully");
+        const savedUser = await user.save();
+        const token = await savedUser.getJWT();
+        res.cookie("token",token,{
+            expires: new Date(Date.now() + 86400000), // 1 day
+        });
+
+        return res.json({message : "User Created Successfully", data:savedUser});
     }catch (err) {
         if(err.code === 11000){
             return res.status(400).json({ error: "Email ID already exists" });
@@ -59,7 +64,7 @@ authRouter.post("/login", async (req, res) => {
         if(isPasswordValid){
             const token = await user.getJWT();
             res.cookie("token",token);
-            res.send("User Logged In Successfully");
+            res.send(user);
         }else{
             throw new Error("Invalid Credentials");
         }

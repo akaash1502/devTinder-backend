@@ -71,10 +71,7 @@ const validateEditProfileData = (req) => {
 
   if (photoURL && !isURL(photoURL)){
     throw new Error("Photo must be given as URL");
-  }
-
-
-  
+  }  
   return isUpdateAllowed;
 };
 

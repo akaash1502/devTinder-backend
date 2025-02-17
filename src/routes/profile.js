@@ -7,19 +7,18 @@ const bcrypt = require('bcrypt');
 
 // profileRouter.use(express.json());
 
-profileRouter.get("/view", userAuth, async (req, res) => {
+profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
     const user = req.user;
     res.send(user);
-    // console.log(token);
-    // res.send("readingcookie");}
   } catch (err) {
     console.log("ERROR : " + err.message);
   }
 });
 
-profileRouter.patch("/edit", userAuth, async (req, res) => {
+profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
+    console.log("Incoming PATCH request data:", req.body);
     if(!validateEditProfileData(req)){
       throw new Error("Invalid Update Fields");
     }
@@ -31,9 +30,8 @@ profileRouter.patch("/edit", userAuth, async (req, res) => {
 
     await loggedInuser.save();
 
-    res.json({message: `${loggedInuser.firstName} your Profile Updated Successfully`,
-      data:loggedInuser,
-    });
+    res.json({ success: true, user: loggedInuser });
+
 
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);

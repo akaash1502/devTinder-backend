@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         lowercase:true,
         validate(value){
-            if(!["male","female","Others"].includes(value)){
+            if(!["male","female","others"].includes(value)){
                 throw new Error("Gender data is not valid");
             }
         },
@@ -88,7 +88,7 @@ const userSchema = new mongoose.Schema({
     },
     photoURL : {
         type: String,
-        default:"https://img.favpng.com/6/14/19/computer-icons-user-profile-icon-design-png-favpng-vcvaCZNwnpxfkKNYzX3fYz7h2.jpg",
+        default:"https://cdn-icons-png.flaticon.com/512/149/149071.png",
         validate: {
             validator: validator.isURL, // Validate URL format
             message: "Invalid photo URL.",
