@@ -6,8 +6,10 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
 const userRouter = require("./routes/user.js");
 const cors = require("cors");
+require('dotenv').config();
 
 const app = express();
+
 
 app.use(cors({
   origin: "http://localhost:5173",
