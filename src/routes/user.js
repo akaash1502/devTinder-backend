@@ -26,7 +26,6 @@ userRouter.get("/user/requests/review", userAuth, async (req, res) => {
 userRouter.get("/user/connections", userAuth, async (req, res) => {
     try {
       const loggedInUser = req.user;
-  
       const connections = await connectionRequestsModel.find({
         $or: [
           { toUserId: loggedInUser._id, status: "accepted" },
