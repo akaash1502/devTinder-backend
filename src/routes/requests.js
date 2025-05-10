@@ -2,6 +2,11 @@ const express = require("express");
 const requestRouter= express.Router();
 const { userAuth } = require("../middlewares/auth");
 const connectionRequest = require("../models/connectionRequests");
+const sendEmail  = require("../utils/sendEmail");
+const User = require("../models/user");
+
+
+
 
 requestRouter.post("/request/send/:status/:toUserId",userAuth, async (req, res) => {
   try{
@@ -45,6 +50,18 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth, async (req, res) 
 
 
     const data = await connection.save();
+    //SEND EMAIL
+    // const fromUser = await User.findById(fromUserId);
+    const fromUser = await User.findById(fromUserId);
+
+    if(status === "interested"){
+      const emailRes = await sendEmail.run("New Connection Request",
+        `You have a new connection request from ${fromUser.firstName}. Please check your account for more details`);
+    
+        console.log("Email sent successfully");
+    }
+    
+
     res.json({
       message: "Connection Request Sent!!",
       data,
