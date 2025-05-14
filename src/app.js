@@ -5,7 +5,11 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
 const userRouter = require("./routes/user.js");
+const chatRouter = require("./routes/chatroute.js");
 const cors = require("cors");
+const http = require("http");
+const initializeSocket = require("./utils/socket.js");
+
 require('dotenv').config();
 
 const app = express();
@@ -27,12 +31,17 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", chatRouter);
+
+const server = http.createServer(app);
+initializeSocket(server);
+// Initialize Socket.io
 
 // Connect to DB and Start Server
 connectDB()
   .then(() => {
     console.log("DB Connected Successfully");
-    app.listen(3000, () => {
+    server.listen(3000, () => {
       console.log("Listening on PORT 3000");
     });
   })
