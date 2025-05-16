@@ -69,9 +69,9 @@ const validateEditProfileData = (req) => {
     throw new Error("About should be less than 1000 words");
   }
 
-  if (photoURL && !isURL(photoURL)){
-    throw new Error("Photo must be given as URL");
-  }  
+  // if (photoURL && !isURL(photoURL)){
+  //   throw new Error("Photo must be given as URL");
+  // }  
   return isUpdateAllowed;
 };
 

@@ -89,10 +89,10 @@ const userSchema = new mongoose.Schema({
     photoURL : {
         type: String,
         default:"https://cdn-icons-png.flaticon.com/512/149/149071.png",
-        validate: {
-            validator: validator.isURL, // Validate URL format
-            message: "Invalid photo URL.",
-        },
+        // validate: {
+        //     validator: validator.isURL, // Validate URL format
+        //     message: "Invalid photo URL.",
+        // },
     },
 },
 {
