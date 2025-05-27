@@ -23,7 +23,6 @@ const corsOptions = {
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 };
-
 // ✅ Apply it globally BEFORE any route
 app.use(cors(corsOptions));
 

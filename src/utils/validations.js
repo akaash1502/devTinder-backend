@@ -2,31 +2,35 @@ const validator = require("validator");
 const { default: isURL } = require("validator/lib/isURL");
 
 const validateSignUpData = (data) => {
-  const { firstName, lastName, emailID, gender, password } = data;
+  const firstName = data.firstName?.trim();
+  const lastName = data.lastName?.trim();
+  const emailID = data.emailID?.trim();
+  const password = data.password?.trim();
+  const gender = data.gender?.trim();
 
-  // First Name Validation
+  // First Name
   if (!firstName || firstName.length < 3 || firstName.length > 30) {
-    throw new Error("First name is required and must be 3-30 characters long.");
+    throw new Error("First name is required and must be 3–30 characters long.");
   }
 
-  // Last Name Validation
+  // Last Name
   if (!lastName || lastName.length < 3 || lastName.length > 20) {
-    throw new Error("Last name is required and must be 3-20 characters long.");
+    throw new Error("Last name is required and must be 3–20 characters long.");
   }
 
-  // Email Validation
+  // Email
   if (!emailID || !validator.isEmail(emailID)) {
     throw new Error("Invalid email address.");
   }
 
-  // Password Validation
+  // Password
   if (!password || password.length < 8 || !checkpassword(password)) {
     throw new Error(
-      "Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character."
+      "Password must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character."
     );
   }
 
-  // Gender Validation
+  // Gender (optional)
   if (gender && !["male", "female", "others"].includes(gender.toLowerCase())) {
     throw new Error("Gender must be one of: male, female, or others.");
   }

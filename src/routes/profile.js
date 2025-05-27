@@ -4,6 +4,7 @@ const { userAuth } = require("../middlewares/auth");
 const { validateEditProfileData } = require("../utils/validations");
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const User = require("../models/user");
 
 // profileRouter.use(express.json());
 
@@ -11,6 +12,22 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
     const user = req.user;
     res.send(user);
+  } catch (err) {
+    console.log("ERROR : " + err.message);
+  }
+});
+
+profileRouter.get("/profile/getTargetprofile/:id", userAuth, async (req, res) => {
+  try {
+    const targetUserId = req.params.id;
+    const targetUser = await User.findById(targetUserId);
+
+     if (!targetUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+     res.status(200).json({ user: targetUser });
+
   } catch (err) {
     console.log("ERROR : " + err.message);
   }
